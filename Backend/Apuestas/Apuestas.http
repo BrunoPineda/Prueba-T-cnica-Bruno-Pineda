@@ -1,0 +1,6 @@
+@Apuestas_HostAddress = http://localhost:5215
+
+GET {{Apuestas_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
