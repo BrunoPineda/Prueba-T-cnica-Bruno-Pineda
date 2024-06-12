@@ -2,9 +2,13 @@
   <div class="ruleta-container relative mx-auto mt-10">
     <div id="ruleta" class="ruleta relative rounded-full"></div>
     <div class="puntero"></div>
+    <div v-if="resultado" class="text-center mt-4">
+      <p>Resultado: Número {{ resultado.numeroResultado }}, Color {{ resultado.colorResultado }}</p>
+      <p>Premio: {{ resultado.premio }}</p>
+      <p>Saldo Final: {{ resultado.saldo }}</p>
+    </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'RuletaJuego',

@@ -33,12 +33,13 @@
       </div>
       <button type="submit" class="w-full py-3 bg-yellow-500 hover:bg-yellow-600 rounded text-white text-lg font-semibold">Iniciar Juego</button>
     </form>
-    <button @click="cargarSaldo" class="w-full mt-4 py-3 bg-yellow-500 hover:bg-yellow-600 rounded text-white text-lg font-semibold">Cargar Saldo</button>
+    <button @click="mostrarSaldo" class="w-full mt-4 py-3 bg-yellow-500 hover:bg-yellow-600 rounded text-white text-lg font-semibold">Mostrar Saldo</button>
   </div>
 </template>
 
 <script>
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default {
   data() {
@@ -93,6 +94,29 @@ export default {
     },
     cargarSaldo() {
       this.$emit('cargarSaldo', this.nombre);
+    },
+    async mostrarSaldo() {
+      const { value: nombre } = await Swal.fire({
+        title: 'Visualiza tu saldo',
+        input: 'text',
+        inputLabel: 'Nombre',
+        inputPlaceholder: 'Ingresa tu nombre',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          if (!value) {
+            return 'Necesitas escribir un nombre!';
+          }
+        }
+      });
+      
+      if (nombre) {
+        try {
+          const response = await axios.get(`https://localhost:7138/api/Usuario/${nombre}`);
+          Swal.fire('Saldo', `Saldo de ${nombre}: ${response.data}`, 'info');
+        } catch (error) {
+          Swal.fire('Error', 'No se pudo cargar el saldo', 'error');
+        }
+      }
     }
   }
 };
